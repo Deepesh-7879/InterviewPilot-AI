@@ -6,7 +6,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 import httpx
 
-app = FastAPI(title='InterviewPilot AI', version='0.1.0')
+app = FastAPI(title='InterviewPilot AI', version='0.2.0')
+from .speech import router as speech_router
+app.include_router(speech_router)
 app.add_middleware(CORSMiddleware, allow_origins=['http://localhost:5173','http://127.0.0.1:5173'], allow_methods=['GET','POST'], allow_headers=['Content-Type'])
 OLLAMA = os.getenv('OLLAMA_URL', 'http://127.0.0.1:11434')
 MODEL = os.getenv('OLLAMA_MODEL', 'qwen2.5-coder:3b')
