@@ -17,7 +17,7 @@ def decode_audio(path: str):
 
 @router.post("/transcribe")
 async def transcribe_audio(audio: UploadFile = File(...)):
-    if audio.content_type not in ("audio/webm", "audio/wav", "audio/x-wav", "audio/ogg", "audio/mp4"):
+    if (audio.content_type or "").split(";")[0] not in ("audio/webm", "audio/wav", "audio/x-wav", "audio/ogg", "audio/mp4"):
         raise HTTPException(415, "Unsupported audio format")
     data = await audio.read(10 * 1024 * 1024 + 1)
     if not data or len(data) > 10 * 1024 * 1024:
